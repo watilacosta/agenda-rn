@@ -94,43 +94,33 @@ export default class Agenda extends Component {
     this.setState({ visibleTasks })
   }
 
-  toggleTask = () => {
+  toggleFilter = () => {
     this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
   }
 
   componentDidMount = () =>{
     this.filterTasks()
   }
-
+  
   toggleTask = (id) => {
-    // clonando o array de tasks para não alterar diretamente o array original
-    tasks = [...this.state.tasks]
-
-    // Utilizando map ao invés de clonar o array original
-    // tasks = this.state.tasks.map(task => {
-    //   if (task.id === id) {
-    //     task = {...task}
-    //     task.doneAt = task.doneAt ? null : new Date()
-    //   }
-    //   return task
-    // })
-
-    tasks.forEach(task => {
+    const tasks = this.state.tasks.map(task =>{
       if (task.id === id) {
+        task = {...task}
         task.doneAt = task.doneAt ? null : new Date()
       }
-      this.setState({ tasks })
+      return task
     })
+    this.setState({ tasks }, this.filterTasks)
   }
 
   render() {
     return (
       <View style={styles.container}>
-
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.iconBar}>
             <TouchableOpacity onPress={this.toggleFilter}>
-              <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'} size={20} color={estilos.colors.secondary}></Icon>
+              <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'} size={25} 
+                    color={estilos.colors.secondary} />
             </TouchableOpacity>
           </View>
 
@@ -143,9 +133,9 @@ export default class Agenda extends Component {
         </ImageBackground>
 
         <View style={styles.taskContainer}>
-          <FlatList data={this.state.tasks} 
+          <FlatList data={this.state.visibleTasks} 
                     keyExtractor={item => `${item.id}`} 
-                    renderItem={ ({ item }) => 
+                    renderItem={({ item }) => 
                       <Task {...item} toggleTask={this.toggleTask} /> } />
         </View>
       </View>
@@ -180,5 +170,12 @@ const styles = StyleSheet.create({
   },
   taskContainer: {
     flex: 7,
+  },
+
+  iconBar: {
+    marginTop: Platform.OS === 'ios' ? 30 : 20,
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   }
 })
