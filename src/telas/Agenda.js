@@ -23,24 +23,12 @@ import Task from '../componentes/Task'
 export default class Agenda extends Component {
   state = {
     tasks: [
-      { 
-        id: Math.random(), 
-        desc: 'Estudar curso de RN', 
-        estimateAt: new Date(), 
-        doneAt: new Date() 
-      },
-      {
-        id: Math.random(), 
-        desc: 'Comprar pão', 
-        estimateAt: new Date(), 
-        doneAt: null
-      },
-      { 
-        id: Math.random(), 
-        desc: 'Estudar curso de RN', 
-        estimateAt: new Date(), 
-        doneAt: new Date() 
-      },    
+      // { 
+      //   id: Math.random(), 
+      //   desc: 'Estudar curso de RN', 
+      //   estimateAt: new Date(), 
+      //   doneAt: new Date() 
+      // }
     ],
 
     visibleTasks: [],
@@ -58,6 +46,11 @@ export default class Agenda extends Component {
     })
 
     this.setState({ tasks, showAddTask: false }, this.filterTasks)
+  }
+
+  deleteTask = id => {
+    const tasks = this.state.tasks.filter(task => task.id !== id)
+    this.setState({ tasks }, this.filterTasks)
   }
 
   filterTasks = () => {
@@ -120,7 +113,8 @@ export default class Agenda extends Component {
           <FlatList data={this.state.visibleTasks} 
                     keyExtractor={item => `${item.id}`} 
                     renderItem={({ item }) => 
-                      <Task {...item} toggleTask={this.toggleTask} /> } />
+                      <Task {...item} onToggleTask={this.toggleTask}
+                        onDelete={this.deleteTask} /> } />
         </View>
 
         <ActionButton buttonColor={estilos.colors.today}
