@@ -52,7 +52,7 @@ export default props => {
   return (
     <Swipeable leftActionActivationDistance={200}
       onLeftActionActivate={() => props.onDelete(props.id)}
-      leftContent={leftContent} rightButton={rightContent}>
+      leftContent={leftContent} rightButtons={rightContent}>
 
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => props.onToggleTask(props.id)}>
@@ -74,59 +74,53 @@ export default props => {
 }
 
 const styles = StyleSheet.create({
-  done: {
-    height: 25,
-    width: 25,
-    borderRadius: 15,
-    backgroundColor: '#4D7031',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  pending: {
-    borderWidth: 1,
-    height: 25,
-    width: 25,
-    borderRadius: 15,
-    borderColor: '#555',
-  },
-
   container: {
-    paddingVertical: 10,
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#AAA',
-  }, 
-
+      paddingVertical: 10,
+      flexDirection: 'row',
+      borderBottomWidth: 1,
+      borderColor: '#AAA',
+  },
   checkContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '20%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '20%',
   },
-
+  pending: {
+      borderWidth: 1,
+      height: 25,
+      width: 25,
+      borderRadius: 15,
+      borderColor: '#555',
+  },
+  done: {
+      height: 25,
+      width: 25,
+      borderRadius: 15,
+      backgroundColor: '#4D7031',
+      alignItems: 'center',
+      justifyContent: 'center',
+  },
   description: {
-    fontFamily: estilos.fontFamily,
-    color: estilos.colors.mainText,
-    fontSize: 18,
+      fontFamily: estilos.fontFamily,
+      color: estilos.colors.mainText,
+      fontSize: 15,
   },
-
   date: {
-    fontFamily: estilos.fontFamily,
-    color: estilos.colors.subText,
-    fontSize: 13,
-  } ,
-
+      fontFamily: estilos.fontFamily,
+      color: estilos.colors.subText,
+      fontSize: 12,
+  },
   exclude: {
-    flex: 1,
-    backgroundColor: 'red',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+      flex: 1,
+      backgroundColor: 'red',
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
   },
   excludeText: {
-    fontFamily: estilos.fontFamily,
-    color: '#FFF',
-    fontSize: 20,
-    margin: 10,
+      fontFamily: estilos.fontFamily,
+      color: '#FFF',
+      fontSize: 20,
+      margin: 10,
   }
 })
