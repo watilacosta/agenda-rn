@@ -12,8 +12,9 @@ import moment from 'moment'
 import 'moment/locale/pt-br'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ActionButton from 'react-native-action-button'
-import AddTask from './AddTask'
+import AsyncStorage from '@react-native-community/async-storage'
 
+import AddTask from './AddTask'
 import todayImage from '../../assets/imgs/today.jpg'
 import estilos from '../estilos'
 
@@ -64,20 +65,25 @@ export default class Agenda extends Component {
     }
 
     this.setState({ visibleTasks })
+
+    // Salvando as tasks no storage do dispositivo
+    AsyncStorage.setItem('tasks', JSON.stringify(this.state.tasks))
   }
 
   toggleFilter = () => {
     this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
   }
 
-  componentDidMount = () =>{
-    this.filterTasks()
+  componentDidMount =  async () =>{
+    const data  = await AsyncStorage.getItem('tasks')
+    const tasks = JSON.parse(data) || []
+    this.setState({ tasks }, this.filterTasks)
   }
   
   toggleTask = (id) => {
     const tasks = this.state.tasks.map(task =>{
       if (task.id === id) {
-        task = {...task}
+        task        = {...task}
         task.doneAt = task.doneAt ? null : new Date()
       }
       return task
